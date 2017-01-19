@@ -1,28 +1,23 @@
 var express = require('express');
-var router = express.Router();
+var Post = require('../models/post');
 
-// Mock Database first
-var posts = [
-  {
-    'title': 'Post 1',
-    'post': "Some text here 1"
-  },
-  {
-    'title': 'Post 2',
-    'post': "Some text here 2"
-  }
-];
+var router = express.Router();
 
 // GET /posts
 router.get('/', function(req, res) {
-  res.render('posts/list.hbs', {posts: posts});
+  Post.find({}, function(err, posts) {
+    if (err) throw err;
+    else res.render('posts/list.hbs', {posts: posts});
+  });  
 });
 
 // POST /posts
 router.post('/', function(req, res) {
-  var post = req.body;
-  posts.push(post);
-  res.redirect('/posts');
+  var post = new Post(req.body);
+  post.save(function(err) {
+    if (err) throw err;
+    else res.redirect('/posts');
+  }) 
 });
 
 // GET /posts/new
