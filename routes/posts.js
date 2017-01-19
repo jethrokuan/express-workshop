@@ -13,9 +13,21 @@ var posts = [
   }
 ];
 
-// GET posts
+// GET /posts
 router.get('/', function(req, res) {
   res.render('posts/list.hbs', {posts: posts});
+});
+
+// POST /posts
+router.post('/', function(req, res) {
+  var post = req.body;
+  posts.push(post);
+  res.redirect('/posts');
+});
+
+// GET /posts/new
+router.get('/new', function(req, res) {
+  res.render('posts/new.hbs');
 });
 
 module.exports = router;
