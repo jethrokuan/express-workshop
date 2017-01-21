@@ -25,4 +25,12 @@ router.get('/new', function(req, res) {
   res.render('posts/new.hbs');
 });
 
+// GET /posts/u2111heut131
+router.get('/:postid', function(req, res) {
+  Post.findById(req.params.postid, function(err, post) {
+    if (err) throw err;
+    res.render('posts/show.hbs', {post: post});
+  });
+});
+
 module.exports = router;
